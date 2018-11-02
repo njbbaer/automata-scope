@@ -4,7 +4,7 @@ from PIL import Image
 import numpy as np
 import RPi.GPIO as GPIO
 
-from autoscope import rules
+from autoscope.rules import rules
 from autoscope.automata import Automata
 
 class Autoscope:
@@ -17,7 +17,7 @@ class Autoscope:
 
         self.device = sh1106(spi(device=0, port=0))
 
-        self.automata = Automata(rules.bugs(), self.DIMENSIONS)
+        self.automata = Automata(find_rule("conway"), self.DIMENSIONS)
         self.automata.populate_random(0.5)
 
     def run(self):
@@ -32,3 +32,8 @@ class Autoscope:
                                 size=self.automata.board.shape[::-1], 
                                 data=np.packbits(self.automata.board, axis=1))
         self.device.display(image)
+
+def find_rule(name):
+    for rule in rules:
+        if rule.name == name:
+            return rule
