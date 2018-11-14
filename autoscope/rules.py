@@ -1,7 +1,27 @@
 import numpy as np
 from collections import namedtuple
 
-Rule = namedtuple("Rule", "name rule neighborhood")
+class RulesList():
+    def __init__(self, rule_list):
+        self.rule_list = rule_list
+        self.rule_index = 0
+
+    def lookup_rule(self, name):
+        for rule in self.rule_list:
+            if rule.name == name:
+                return rule
+
+    def current_rule(self):
+        return self.rule_list[self.rule_index]
+
+    def next_rule(self):
+        self.rule_index = (self.rule_index + 1) % len(self.rule_list)
+        return self.current_rule()
+
+    def previous_rule(self):
+        self.rule_index = (self.rule_index - 1) % len(self.rule_list)
+        return self.current_rule()
+    
 
 def _moore_neighborhood():
     return [[1, 1, 1],
@@ -13,6 +33,8 @@ def _box_neighborhood(radius, center=True):
     if not center:
         neighborhood[radius][radius] = 0
     return neighborhood
+
+Rule = namedtuple("Rule", "name rule neighborhood")
 
 rules = [
     Rule(name = "amoeba",
@@ -143,3 +165,5 @@ rules = [
          rule = [[[34, 58]], [[34, 41]]],
          neighborhood = _box_neighborhood(radius=5)),
 ]
+
+rules_list = RulesList(rules)
