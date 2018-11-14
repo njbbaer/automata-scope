@@ -1,3 +1,6 @@
 from autoscope.autoscope import Autoscope
 
-Autoscope().run()
+try:
+    Autoscope().run()
+except KeyboardInterrupt:
+    pass
