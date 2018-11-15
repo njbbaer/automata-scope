@@ -1,7 +1,7 @@
 import numpy as np
 from collections import namedtuple
 
-class RulesList():
+class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
         self.rule_index = 0
@@ -166,4 +166,4 @@ rules = [
          neighborhood = _box_neighborhood(radius=5)),
 ]
 
-rules_list = RulesList(rules)
+rules_list = RuleList(rules)
