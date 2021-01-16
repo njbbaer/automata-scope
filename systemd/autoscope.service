@@ -1,0 +1,12 @@
+[Unit]
+Description=Autoscope
+After=multi-user.target
+
+[Service]
+Type=idle
+User=pi
+WorkingDirectory=/home/pi/autoscope
+ExecStart=/usr/bin/python3 /home/pi/autoscope/autoscope > /home/pi/autoscope/prod.log
+
+[Install]
+WantedBy=multi-user.target
