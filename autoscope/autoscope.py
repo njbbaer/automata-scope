@@ -6,8 +6,9 @@ from luma.core.interface.serial import spi
 from luma.oled.device import sh1106
 from PIL import Image, ImageDraw, ImageFont
 from gpiozero import Button
-from autoscope.rules import rules_list
-from autoscope.automata import Automata
+
+from rules import rules_list
+from automata import Automata
 
 class Autoscope:
     DIMENSIONS = [64, 128]

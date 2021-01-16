@@ -1,4 +1,4 @@
-from autoscope.autoscope import Autoscope
+from autoscope import Autoscope
 
 try:
     Autoscope().run()
