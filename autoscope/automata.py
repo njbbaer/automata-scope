@@ -4,13 +4,12 @@ from luma.core.render import canvas
 
 class Automata:
     def __init__(self, rule, shape):
-        self.shape = shape
+        self.board = np.zeros(shape, dtype=int)
         self._set_rule(rule)
 
     def populate_random(self, density=0):
-        self.board = np.random.uniform(size=self.shape) < density
+        self.board = np.random.uniform(size=self.board.shape) < density
         self.board = self.board.astype(np.int)
-        self._calculate_kernal_ft()
 
     def benchmark(self, iterations):
         start = time.process_time()
@@ -27,6 +26,7 @@ class Automata:
         self.rule_ints = (get_ints(rule.rule[0]), get_ints(rule.rule[1]))
         get_ranges = lambda x: [i for i in x if not isinstance(i, int)]
         self.rule_ranges = (get_ranges(rule.rule[0]), get_ranges(rule.rule[1]))
+        self._calculate_kernal_ft()
 
     def _calculate_kernal_ft(self):
         neighborhood = np.array(self.neighborhood)

@@ -1,5 +1,4 @@
 import numpy as np
-import RPi.GPIO as GPIO
 import time
 from itertools import cycle
 from luma.core.interface.serial import spi
@@ -27,9 +26,10 @@ class Autoscope:
         self.press.when_pressed = self._toggle_paused
 
         while True:
-            if self.up.is_pressed: self._next_rule() 
-            if self.down.is_pressed: self._previous_rule() 
+            self.up.when_pressed = self._next_rule
+            self.down.when_pressed = self._previous_rule
             if self.key1.is_pressed: self._repopulate()
+
             time_elapsed = time.time() - self.start_time
             do_draw_name = self.key2.is_pressed or time_elapsed < 3
             do_draw_fps = self.key2.is_pressed
@@ -39,7 +39,6 @@ class Autoscope:
             self._calculate_fps()
 
     def _initalize_buttons(self):
-        GPIO.setmode(GPIO.BCM)
         self.key1 = Button(21)
         self.key2 = Button(20)
         self.press = Button(13)
