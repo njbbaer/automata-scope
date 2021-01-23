@@ -23,12 +23,12 @@ class Autoscope:
         self.last_measured_time = time.time()
 
     def run(self):
-        self.press.when_pressed = self._toggle_paused
+        self.key1.when_pressed = self._toggle_paused
 
         while True:
             self.up.when_pressed = self._next_rule
             self.down.when_pressed = self._previous_rule
-            if self.key1.is_pressed: self._repopulate()
+            if self.press.is_pressed: self._repopulate()
 
             time_elapsed = time.time() - self.start_time
             do_draw_name = self.key2.is_pressed or time_elapsed < 3
