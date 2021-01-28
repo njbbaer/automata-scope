@@ -14,7 +14,9 @@ class Autoscope:
     FONT = ImageFont.truetype("fonts/Unibody 8.ttf", size=8)
 
     def __init__(self):
-        self._initalize_buttons()
+        self._initialize_buttons()
+        self._initialize_button_events()
+        self.device = sh1106(spi(device=0, port=0), rotate=2)
         self.automata = Automata(rules_list.current_rule(), self.DIMENSIONS)
         self.automata.populate_random(0.5)
         self.start_time = time.time()
@@ -22,24 +24,7 @@ class Autoscope:
         self.average_fps = 0
         self.last_measured_time = time.time()
 
-    def run(self):
-        self.up.when_pressed = self._next_rule
-        self.down.when_pressed = self._previous_rule
-        self.right.when_pressed = self._right_button_pressed
-
-        while True:
-            if self.press.is_pressed: self._repopulate()
-            self.paused = self.key1.is_pressed
-
-            time_elapsed = time.time() - self.start_time
-            do_draw_name = self.key2.is_pressed or time_elapsed < 3
-            do_draw_fps = self.key2.is_pressed
-            self._render(do_draw_name, do_draw_fps)
-            if not self.paused:
-                self.automata.step()
-            self._calculate_fps()
-
-    def _initalize_buttons(self):
+    def _initialize_buttons(self):
         self.key1 = Button(21)
         self.key2 = Button(20)
         self.press = Button(13)
@@ -47,7 +32,22 @@ class Autoscope:
         self.down = Button(19)
         self.left = Button(5)
         self.right = Button(26)
-        self.device = sh1106(spi(device=0, port=0))
+
+    def _initialize_button_events(self):
+        self.up.when_pressed = self._next_rule
+        self.down.when_pressed = self._previous_rule
+        self.right.when_pressed = self._right_button_pressed
+
+    def run(self):
+        while True:
+            if self.press.is_pressed: self._repopulate()
+            self.paused = self.key1.is_pressed
+            do_draw_fps = self.key2.is_pressed
+
+            self._render(self._do_draw_name(), do_draw_fps)
+            if not self.paused:
+                self.automata.step()
+            self._calculate_fps()
 
     def _render(self, do_draw_name, do_draw_fps):
         image = Image.frombytes(
@@ -56,8 +56,11 @@ class Autoscope:
             data=np.packbits(self.automata.board, axis=1))
         if do_draw_name: self._draw_name(image)
         if do_draw_fps: self._draw_fps(image)
-        image = image.rotate(180)
         self.device.display(image)
+
+    def _do_draw_name(self):
+        time_elapsed = time.time() - self.start_time
+        return self.key2.is_pressed or time_elapsed < 3
 
     def _draw_name(self, image):
         text = rules_list.current_rule().name
