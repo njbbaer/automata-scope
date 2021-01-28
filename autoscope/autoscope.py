@@ -23,12 +23,12 @@ class Autoscope:
         self.last_measured_time = time.time()
 
     def run(self):
-        self.key1.when_pressed = self._toggle_paused
+        self.up.when_pressed = self._next_rule
+        self.down.when_pressed = self._previous_rule
 
         while True:
-            self.up.when_pressed = self._next_rule
-            self.down.when_pressed = self._previous_rule
             if self.press.is_pressed: self._repopulate()
+            self.paused = self.key1.is_pressed
 
             time_elapsed = time.time() - self.start_time
             do_draw_name = self.key2.is_pressed or time_elapsed < 3
@@ -83,9 +83,6 @@ class Autoscope:
 
     def _repopulate(self):
         self.automata.populate_random(0.5)
-
-    def _toggle_paused(self):
-        self.paused = not self.paused
 
     def _calculate_fps(self):
         time_elapsed = time.time() - self.last_measured_time
