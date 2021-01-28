@@ -25,6 +25,7 @@ class Autoscope:
     def run(self):
         self.up.when_pressed = self._next_rule
         self.down.when_pressed = self._previous_rule
+        self.right.when_pressed = self._right_button_pressed
 
         while True:
             if self.press.is_pressed: self._repopulate()
@@ -44,6 +45,8 @@ class Autoscope:
         self.press = Button(13)
         self.up = Button(6)
         self.down = Button(19)
+        self.left = Button(5)
+        self.right = Button(26)
         self.device = sh1106(spi(device=0, port=0))
 
     def _render(self, do_draw_name, do_draw_fps):
@@ -88,3 +91,6 @@ class Autoscope:
         time_elapsed = time.time() - self.last_measured_time
         self.last_measured_time = time.time()
         self.average_fps = 0.8 *  self.average_fps + (1.0 - 0.8) * 1 / time_elapsed
+
+    def _right_button_pressed(self):
+        if self.key1.is_pressed: self.automata.step()
