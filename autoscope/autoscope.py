@@ -17,6 +17,7 @@ class Autoscope:
         self._initialize_buttons()
         self._initialize_button_events()
         self.device = sh1106(spi(device=0, port=0), rotate=2)
+        self.device.contrast(255)
         self.automata = Automata(rules_list.current_rule(), self.DIMENSIONS)
         self.automata.populate_random(0.5)
         self.start_time = time.time()
