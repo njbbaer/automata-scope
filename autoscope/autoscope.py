@@ -11,7 +11,7 @@ from automata import Automata
 
 class Autoscope:
     DIMENSIONS = [64, 128]
-    FONT = ImageFont.truetype("fonts/Unibody 8.ttf", size=8)
+    FONT = ImageFont.truetype("/home/pi/autoscope/fonts/Unibody 8.ttf", size=8)
 
     def __init__(self):
         self._initialize_buttons()
