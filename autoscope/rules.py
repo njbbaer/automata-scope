@@ -4,14 +4,23 @@ from collections import namedtuple
 class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
+        self.seed_list = [0.01, 0.1, 0.5, 0.9, 0.99]
         self.rule_index = 0
+        self.seed_index = 2
 
     def current_rule(self):
         return self.rule_list[self.rule_index]
 
-    def find_rule_offset(self, offset):
+    def current_seed(self):
+        return self.seed_list[self.seed_index]
+
+    def offset_rule(self, offset):
         self.rule_index = (self.rule_index + offset) % len(self.rule_list)
         return self.current_rule()
+
+    def offset_seed(self, offset):
+        self.seed_index = (self.seed_index + offset) % len(self.seed_list)
+        return self.current_seed()
 
 def _moore_neighborhood():
      return [[1, 1, 1],
