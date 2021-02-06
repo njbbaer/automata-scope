@@ -28,7 +28,7 @@ class Autoscope:
     def _initialize_buttons(self):
         self.key1 = Button(21)
         self.key2 = Button(20)
-        self.press = Button(13)
+        self.center = Button(13)
         self.up = Button(6)
         self.down = Button(19)
         self.left = Button(5)
@@ -41,12 +41,10 @@ class Autoscope:
 
     def run(self):
         while True:
-            if self.press.is_pressed: self._repopulate()
-            self.paused = self.key1.is_pressed
-            do_draw_fps = self.key2.is_pressed
+            if self.center.is_pressed: self._repopulate()
 
-            self._render(self._do_draw_name(), do_draw_fps)
-            if not self.paused:
+            self._render(self._do_draw_name(), self._do_draw_fps())
+            if not self._is_paused():
                 self.automata.step()
             self._calculate_fps()
 
@@ -63,6 +61,12 @@ class Autoscope:
         time_elapsed = time.time() - self.start_time
         return self.key2.is_pressed or time_elapsed < 3
 
+    def _do_draw_fps(self):
+        return self.key2.is_pressed
+
+    def _is_paused(self):
+        return self.key1.is_pressed
+
     def _draw_name(self, image):
         text = rules_list.current_rule().name
         text_size = self.FONT.getsize(text)
@@ -78,15 +82,13 @@ class Autoscope:
         draw.rectangle(background_box, fill="black")
         draw.text((0, 52), text, fill="white", font=self.FONT)
 
-    def _next_rule(self):
-        self.automata = Automata(rules_list.next_rule(), self.DIMENSIONS)
+    def _next_rule(self, previous=False):
+        self.automata = Automata(rules_list.find_rule_offset(1), self.DIMENSIONS)
         self._repopulate()
         self.start_time = time.time()
 
     def _previous_rule(self):
-        self.automata = Automata(rules_list.previous_rule(), self.DIMENSIONS)
-        self._repopulate()
-        self.start_time = time.time()
+        self._next_rule(previous=True)
 
     def _repopulate(self):
         self.automata.populate_random(0.5)

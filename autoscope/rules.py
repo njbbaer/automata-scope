@@ -6,27 +6,17 @@ class RuleList():
         self.rule_list = rule_list
         self.rule_index = 0
 
-    def lookup_rule(self, name):
-        for rule in self.rule_list:
-            if rule.name == name:
-                return rule
-
     def current_rule(self):
         return self.rule_list[self.rule_index]
 
-    def next_rule(self):
-        self.rule_index = (self.rule_index + 1) % len(self.rule_list)
+    def find_rule_offset(self, offset):
+        self.rule_index = (self.rule_index + offset) % len(self.rule_list)
         return self.current_rule()
-
-    def previous_rule(self):
-        self.rule_index = (self.rule_index - 1) % len(self.rule_list)
-        return self.current_rule()
-    
 
 def _moore_neighborhood():
-    return [[1, 1, 1],
-            [1, 0, 1],
-            [1, 1, 1]]
+     return [[1, 1, 1],
+             [1, 0, 1],
+             [1, 1, 1]]
 
 def _box_neighborhood(radius, center=True):
     neighborhood = np.ones((radius*2+1, radius*2+1))
