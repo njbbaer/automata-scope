@@ -4,9 +4,8 @@ from collections import namedtuple
 class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
-        self.seed_list = [0.01, 0.1, 0.5, 0.9, 0.99]
         self.rule_index = 0
-        self.seed_index = 2
+        self.seed_index = 0
 
     def current_rule(self):
         return self.rule_list[self.rule_index]
@@ -16,14 +15,14 @@ class RuleList():
 
     def offset_rule(self, offset):
         self.rule_index = (self.rule_index + offset) % len(self.rule_list)
+        self.seed_index = 0
+        print(self.current_seed().name())
         return self.current_rule()
 
     def offset_seed(self, offset):
-        self.seed_index = (self.seed_index + offset) % len(self.seed_list)
+        self.seed_index = (self.seed_index + offset) % len(self.current_rule().seeds)
+        print(self.current_seed().name())
         return self.current_seed()
-
-    def reset_seed(self):
-        self.seed_index = 0
 
 def _moore_neighborhood():
      return [[1, 1, 1],
@@ -44,62 +43,50 @@ class RandomSeed:
         new_board = np.random.uniform(size=board.shape) < self.density
         return new_board.astype(np.int)
 
+    def name(self):
+        return f'random {self.density}'
+
 Rule = namedtuple("Rule", "name rule neighborhood seeds")
 
 rules = [
     Rule(name = "amoeba",
          rule = [[1, 3, 5, 8], [3, 5, 7]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.10),
+                  RandomSeed(0.15),
+                  RandomSeed(0.20)]),
 
     Rule(name = "anneal",
          rule = [[3, 5, 6, 7, 8], [4, 6, 7, 8]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.46),
+                  RandomSeed(0.48),
+                  RandomSeed(0.50),
+                  RandomSeed(0.52)]),
 
     Rule(name = "assimilation",
          rule = [[4, 5, 6, 7], [3, 4, 5]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.16),
+                  RandomSeed(0.18),
+                  RandomSeed(0.20)]),
 
     Rule(name = "coagulations",
          rule = [[2, 3, 5, 6, 7, 8], [3, 7, 8]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.06)]),
 
     Rule(name = "conway",
          rule = [[2, 3], [3]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.5)]),
 
     Rule(name = "coral",
          rule = [[4, 5, 6, 7, 8], [3]],
          neighborhood = _moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.3)]),
+
+    # TBD: Curate seeds below this line
 
     Rule(name = "day_and_night",
          rule = [[3, 4, 6, 7, 8], [3, 6, 7, 8]],
