@@ -35,8 +35,8 @@ class Autoscope:
         self.right = Button(26)
 
     def _initialize_button_events(self):
-        self.up.when_pressed = self._next_rule
-        self.down.when_pressed = self._previous_rule
+        self.down.when_pressed = self._next_rule
+        self.up.when_pressed = self._previous_rule
         self.left.when_pressed = self._previous_seed
         self.right.when_pressed = self._right_button_pressed
 
