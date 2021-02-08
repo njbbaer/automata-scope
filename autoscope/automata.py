@@ -7,9 +7,8 @@ class Automata:
         self.board = np.zeros(shape, dtype=int)
         self._set_rule(rule)
 
-    def populate_random(self, density=0):
-        self.board = np.random.uniform(size=self.board.shape) < density
-        self.board = self.board.astype(np.int)
+    def populate(self, seed):
+        self.board = seed.populate(self.board)
 
     def benchmark(self, iterations):
         start = time.process_time()

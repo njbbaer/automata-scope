@@ -100,7 +100,7 @@ class Autoscope:
         self._next_seed(previous=True)
 
     def _repopulate(self):
-        self.automata.populate_random(rules_list.current_seed())
+        self.automata.populate(rules_list.current_seed())
 
     def _calculate_fps(self):
         time_elapsed = time.time() - self.last_measured_time
