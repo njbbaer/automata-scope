@@ -86,8 +86,8 @@ class Autoscope:
     def _next_rule(self, previous=False):
         offset = -1 if previous else 1
         self.automata = Automata(rules_list.offset_rule(offset), self.DIMENSIONS)
-        self._repopulate()
         self.start_time = time.time()
+        self._repopulate()
 
     def _previous_rule(self):
         self._next_rule(previous=True)
@@ -95,11 +95,13 @@ class Autoscope:
     def _next_seed(self, previous=False):
         offset = -1 if previous else 1
         rules_list.offset_seed(offset)
+        self._repopulate()
 
     def _previous_seed(self):
         self._next_seed(previous=True)
 
     def _repopulate(self):
+        self.automata = Automata(rules_list.current_rule(), self.DIMENSIONS)
         self.automata.populate(rules_list.current_seed())
 
     def _calculate_fps(self):
