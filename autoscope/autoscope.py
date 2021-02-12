@@ -6,7 +6,7 @@ from luma.oled.device import sh1106
 from PIL import Image, ImageDraw, ImageFont
 from gpiozero import Button
 
-from rules import rules_list
+from rules_list import rules_list
 from automata import Automata
 
 class Autoscope:
