@@ -28,6 +28,7 @@ class Autoscope:
     def _initialize_buttons(self):
         self.key1 = Button(21)
         self.key2 = Button(20)
+        self.key3 = Button(16)
         self.center = Button(13)
         self.up = Button(6)
         self.down = Button(19)
@@ -54,19 +55,20 @@ class Autoscope:
             mode='1', 
             size=self.automata.board.shape[::-1], 
             data=np.packbits(self.automata.board, axis=1))
+        if self.key1.is_pressed: image = zoom_image(image)
         if do_draw_name: self._draw_name(image)
         if do_draw_fps: self._draw_fps(image)
         self.device.display(image)
 
     def _do_draw_name(self):
         time_elapsed = time.time() - self.start_time
-        return self.key2.is_pressed or time_elapsed < 3
+        return self.key3.is_pressed or time_elapsed < 3
 
     def _do_draw_fps(self):
-        return self.key2.is_pressed
+        return self.key3.is_pressed
 
     def _is_paused(self):
-        return self.key1.is_pressed
+        return self.key2.is_pressed
 
     def _draw_name(self, image):
         text = rules_list.current_rule().name
@@ -110,7 +112,14 @@ class Autoscope:
         self.average_fps = 0.8 *  self.average_fps + (1.0 - 0.8) * 1 / time_elapsed
 
     def _right_button_pressed(self):
-        if self.key1.is_pressed:
+        if self.key2.is_pressed:
             self.automata.step()
         else:
             self._next_seed()
+
+def zoom_image(image):
+    w, h = image.size
+    x, y = image.size[0] / 2, image.size[1] / 2
+    image = image.crop((x - w / 4, y - h / 4, 
+                    x + w / 4, y + h / 4))
+    return image.resize((w, h), Image.LANCZOS)
