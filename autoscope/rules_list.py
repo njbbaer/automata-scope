@@ -110,16 +110,12 @@ rules_list = RuleList([
     Rule(name = "34_life",
          rule = [[1, 2, 5], [3, 6]],
          neighborhood = moore_neighborhood(),
-         seeds = [RandomSeed(0.01),
-                  RandomSeed(0.1),
-                  RandomSeed(0.5),
-                  RandomSeed(0.9),
-                  RandomSeed(0.99)]),
+         seeds = [RandomSeed(0.1)]),
 
     Rule(name = "long_life",
          rule = [[5], [3, 4, 5]],
          neighborhood = moore_neighborhood(),
-         seeds = [RandomSeed(0.1)]),
+         seeds = [RandomSeed(0.2)]),
 
     Rule(name = "maze",
          rule = [[1, 2, 3, 4, 5], [3]],

@@ -1,8 +1,8 @@
 # AutomataScope
 
-AutomataScope is an interactive demonstration of life-like cellular automata on a Raspberry Pi. The device renders 2d binary totalistic cellular automata, such as Conway's Game of Life, on a bright high-contrast OLED screen. The Python program uses a fast 2D convolution algorithm to provide good performance on the Pi Zero's limited CPU, around 10 fps.
+AutomataScope is an interactive demonstration of life-like cellular automata on a Raspberry Pi Zero. The device renders 2d binary totalistic cellular automata, such as Conway's Game of Life, on a bright high-contrast OLED screen. The Python program uses a fast 2D convolution algorithm to provide good performance on the Pi Zero's limited CPU, around 10 fps.
 
-Conway's Game of Life is of course supported, but so are many others totalistic cellular automata rules, such as the amazingly lifelike [Bugs](https://www.emis.de/journals/DMTCS/pdfpapers/dmAA0113.pdf). Many of these were sourced from the [Cellular Automata rules lexicon](http://psoup.math.wisc.edu/mcell/ca_rules.html).
+Conway's Game of Life is of course supported, but so are many other totalistic cellular automata rules, such as the amazingly lifelike [Bugs](https://www.emis.de/journals/DMTCS/pdfpapers/dmAA0113.pdf). Many of these were sourced from the [Cellular Automata rules lexicon](http://psoup.math.wisc.edu/mcell/ca_rules.html).
 
 ## Recommended Parts
 
