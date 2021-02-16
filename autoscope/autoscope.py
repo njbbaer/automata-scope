@@ -45,19 +45,21 @@ class Autoscope:
         while True:
             if self.center.is_pressed: self._repopulate()
 
-            self._render(self._do_draw_name(), self._do_draw_fps())
+            self._render()
             if not self._is_paused():
                 self.automata.step()
             self._calculate_fps()
 
-    def _render(self, do_draw_name, do_draw_fps):
+    def _render(self):
         image = Image.frombytes(
             mode='1', 
             size=self.automata.board.shape[::-1], 
             data=np.packbits(self.automata.board, axis=1))
         if self.key1.is_pressed: image = zoom_image(image)
-        if do_draw_name: self._draw_name(image)
-        if do_draw_fps: self._draw_fps(image)
+        if self._do_draw_fps(): self._draw_fps(image)
+        if self._do_draw_name():
+            self._draw_name(image)
+            self._draw_seed_name(image)
         self.device.display(image)
 
     def _do_draw_name(self):
@@ -77,19 +79,27 @@ class Autoscope:
         draw.rectangle(((0, 0), text_size), fill="black")
         draw.text((0, 0), text, fill="white", font=self.FONT)
 
-    def _draw_fps(self, image):
-        text = "%.1f fps" % self.average_fps
+    def _draw_seed_name(self, image):
+        text = rules_list.current_seed().name()
         text_size = self.FONT.getsize(text)
         draw = ImageDraw.Draw(image)
-        background_box = ((0, 52), (text_size[0], text_size[1] + 52))
+        background_box = ((0, 53), (text_size[0], text_size[1] + 53))
         draw.rectangle(background_box, fill="black")
-        draw.text((0, 52), text, fill="white", font=self.FONT)
+        draw.text((0, 53), text, fill="white", font=self.FONT)
+
+    def _draw_fps(self, image):
+        text = "%.1f" % self.average_fps
+        text_size = self.FONT.getsize(text)
+        draw = ImageDraw.Draw(image)
+        background_box = ((128, 0), (128 - text_size[0], text_size[1]))
+        draw.rectangle(background_box, fill="black")
+        draw.text((128 - text_size[0], 0), text, fill="white", font=self.FONT)
 
     def _next_rule(self, previous=False):
         offset = -1 if previous else 1
         self.automata = Automata(rules_list.offset_rule(offset), self.DIMENSIONS)
-        self.start_time = time.time()
         self._repopulate()
+        self.start_time = time.time()
 
     def _previous_rule(self):
         self._next_rule(previous=True)
@@ -98,6 +108,7 @@ class Autoscope:
         offset = -1 if previous else 1
         rules_list.offset_seed(offset)
         self._repopulate()
+        self.start_time = time.time()
 
     def _previous_seed(self):
         self._next_seed(previous=True)
@@ -109,7 +120,7 @@ class Autoscope:
     def _calculate_fps(self):
         time_elapsed = time.time() - self.last_measured_time
         self.last_measured_time = time.time()
-        self.average_fps = 0.8 *  self.average_fps + (1.0 - 0.8) * 1 / time_elapsed
+        self.average_fps = 0.8 * self.average_fps + (1.0 - 0.8) * 1 / time_elapsed
 
     def _right_button_pressed(self):
         if self.key2.is_pressed:
