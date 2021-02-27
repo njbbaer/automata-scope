@@ -6,7 +6,7 @@ from seed import *
 class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
-        self.rule_index = 0
+        self.rule_index = 16
         self.seed_index = 0
         self.print_state()
 
@@ -135,7 +135,24 @@ rules_list = RuleList([
     Rule(name = "replicator",
          rule = [[1, 3, 5, 7], [1, 3, 5, 7]],
          neighborhood = moore_neighborhood(),
-         seeds = [SquareSeed(1)]),
+         seeds = [SquareSeed(1),
+                  CustomSeed(np.array(
+                   [[0, 0, 1, 1, 0, 0],
+                    [0, 0, 1, 1, 0, 0],
+                    [1, 1, 1, 1, 1, 1],
+                    [1, 1, 1, 1, 1, 1],
+                    [0, 0, 1, 1, 0, 0],
+                    [0, 0, 1, 1, 0, 0]])),
+                  CustomSeed(np.array(
+                   [[0, 0, 0, 1, 1, 1, 0, 0, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+                    [0, 0, 1, 0, 0, 0, 1, 0, 0],
+                    [0, 0, 0, 1, 1, 1, 0, 0, 0]]))]),
 
     Rule(name = "seeds",
          rule = [[], [2,]],

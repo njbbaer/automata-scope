@@ -33,3 +33,22 @@ class SquareSeed(Seed):
 
     def name(self):
         return f'square s={self.shape[0]}'
+
+class CustomSeed(Seed):
+    def __init__(self, grid):
+        self.grid = grid
+
+    def populate(self, board):
+        new_board = np.zeros(shape=board.shape, dtype=int)
+        pos = [
+            int(board.shape[0]/2 - self.grid.shape[0]/2),
+            int(board.shape[1]/2 - self.grid.shape[1]/2)
+        ]
+        new_board[
+            pos[0]:pos[0]+self.grid.shape[0],
+            pos[1]:pos[1]+self.grid.shape[1]
+        ] = self.grid
+        return new_board
+
+    def name(self):
+        return "custom"
