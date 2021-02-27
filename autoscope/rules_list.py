@@ -6,7 +6,7 @@ from seed import *
 class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
-        self.rule_index = 16
+        self.rule_index = 0
         self.seed_index = 0
         self.print_state()
 
@@ -31,9 +31,9 @@ class RuleList():
         return self.current_seed()
 
 def moore_neighborhood():
-     return [[1, 1, 1],
-             [1, 0, 1],
-             [1, 1, 1]]
+    return [[1, 1, 1],
+            [1, 0, 1],
+            [1, 1, 1]]
 
 def box_neighborhood(radius, center=True):
     neighborhood = np.ones((radius*2+1, radius*2+1))
@@ -119,8 +119,16 @@ rules_list = RuleList([
                   SquareSeed(7),
                   SquareSeed(8),
                   SquareSeed(9),
-                  SquareSeed(10),
-                  SquareSeed(64)]),
+                  SquareSeed(10)]),
+                  
+    Rule(name = "mazecentric",
+         rule = [[1, 2, 3, 4], [3]],
+         neighborhood = moore_neighborhood(),
+         seeds = [RandomSeed(0.03),     
+                  SquareSeed(7),
+                  SquareSeed(8),
+                  SquareSeed(9),
+                  SquareSeed(10)]),
 
     Rule(name = "move",
          rule = [[2, 4, 5], [3, 6, 8]],
