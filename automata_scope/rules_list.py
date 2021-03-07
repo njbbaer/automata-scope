@@ -8,7 +8,6 @@ class RuleList():
         self.rule_list = rule_list
         self.rule_index = 4
         self.seed_index = 0
-        self.print_state()
 
     def current_rule(self):
         return self.rule_list[self.rule_index]
@@ -16,20 +15,15 @@ class RuleList():
     def current_seed(self):
         return self.current_rule().seeds[self.seed_index]
 
-    def print_state(self):
-        print(self.current_rule().name + ", " + self.current_seed().name())
-
     def offset_rule(self, offset):
         self.rule_index = (self.rule_index + offset) % len(self.rule_list)
         self.seed_index = 0
-        self.print_state()
         return self.current_rule()
 
     def offset_seed(self, offset):
         old_seed_index = self.seed_index
         self.seed_index = (self.seed_index + offset) % len(self.current_rule().seeds)
         if old_seed_index == self.seed_index: return False
-        self.print_state()
         return self.current_seed()
 
 def moore_neighborhood():
