@@ -6,7 +6,7 @@ from seed import *
 class RuleList():
     def __init__(self, rule_list):
         self.rule_list = rule_list
-        self.rule_index = 0
+        self.rule_index = 4
         self.seed_index = 0
         self.print_state()
 
