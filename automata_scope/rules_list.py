@@ -26,7 +26,9 @@ class RuleList():
         return self.current_rule()
 
     def offset_seed(self, offset):
+        old_seed_index = self.seed_index
         self.seed_index = (self.seed_index + offset) % len(self.current_rule().seeds)
+        if old_seed_index == self.seed_index: return False
         self.print_state()
         return self.current_seed()
 

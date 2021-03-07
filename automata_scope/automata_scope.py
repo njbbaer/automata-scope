@@ -106,9 +106,9 @@ class AutomataScope:
 
     def _next_seed(self, previous=False):
         offset = -1 if previous else 1
-        rules_list.offset_seed(offset)
-        self._repopulate()
-        self.start_time = time.time()
+        if rules_list.offset_seed(offset):
+            self._repopulate()
+            self.start_time = time.time()
 
     def _previous_seed(self):
         self._next_seed(previous=True)
