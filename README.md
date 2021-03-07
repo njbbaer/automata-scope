@@ -9,3 +9,6 @@ Conway's Game of Life is of course supported, but so are many other totalistic c
 - [Raspberry Pi Zero](https://www.raspberrypi.org/products/raspberry-pi-zero-w/) (with sd card and headers)
 - [Waveshare 1.3 inch OLED Hat](https://www.waveshare.com/1.3inch-oled-hat.htm)
 - [Zebra Zero GPIO Case from C4Labs](https://www.c4labs.com/product/zebra-zero-case-raspberry-pi-zero-zero-w-color-and-upgrade-options/)
+
+## Control Diagram
+![Control Diagram](images/control_diagram.png)
