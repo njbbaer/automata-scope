@@ -1,12 +1,12 @@
 [Unit]
-Description=Autoscope
+Description=AutomataScope
 After=multi-user.target
 
 [Service]
 Type=idle
 User=pi
-WorkingDirectory=/home/pi/autoscope
-ExecStart=/usr/bin/python3 /home/pi/autoscope/autoscope > /home/pi/autoscope/prod.log
+WorkingDirectory=/home/pi/automata-scope
+ExecStart=/usr/bin/python3 /home/pi/automata-scope/automata_scope > /home/pi/automata-scope/prod.log
 
 [Install]
 WantedBy=multi-user.target
